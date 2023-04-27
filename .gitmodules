@@ -1,0 +1,4 @@
+[submodule "pytorch_classification/utils"]
+	path = pytorch_classification/utils
+	url = https://github.com/tanganke/pyutils
+	branch = submodule
