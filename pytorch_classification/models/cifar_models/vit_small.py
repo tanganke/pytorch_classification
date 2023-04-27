@@ -1,12 +1,12 @@
 # https://github.com/lucidrains/vit-pytorch/blob/main/vit_pytorch/vit_for_small_dataset.py
 
 from math import sqrt
+
 import torch
 import torch.nn.functional as F
-from torch import nn
-
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
+from torch import nn
 
 # helpers
 

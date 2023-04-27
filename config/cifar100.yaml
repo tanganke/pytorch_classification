@@ -1,13 +1,13 @@
 defaults:
-  - data: cifar10
+  - data: cifar100
   - model: cifar_resnet50
   - optim: cifar_SGD_cosine
   - _self_
 
-exp_name: cifar10
+exp_name: cifar100
 debug: false
 seed: null
-num_classes: 10
+num_classes: 100
 max_epochs: 200
 
 trainer:

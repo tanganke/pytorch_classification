@@ -24,6 +24,9 @@ logging.basicConfig(level=logging.INFO)
 def main(cfg: DictConfig):
     setup_colorlogging(force=True)
     pprint_yaml(OmegaConf.to_yaml(cfg))
+    if cfg.seed is not None:
+        pl.seed_everything(cfg.seed)
+
     trainer: pl.Trainer = instantiate(cfg.trainer)
 
     train_loader: DataLoader = instantiate(cfg.data.train_loader)

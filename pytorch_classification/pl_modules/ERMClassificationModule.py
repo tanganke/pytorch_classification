@@ -2,18 +2,18 @@
 empirical risk minimization
 """
 import os
-from typing import Callable, Union, Optional, TypeVar, Tuple
+from typing import Callable, Optional, Tuple, TypeVar, Union
 
 import pytorch_lightning as pl
 import pytorch_lightning.loggers as pl_loggers
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from hydra.utils import instantiate
 from omegaconf import DictConfig
 from torch import Tensor
 from torch.utils.tensorboard import SummaryWriter
 from torchmetrics.classification import MulticlassAccuracy
-from hydra.utils import instantiate
 
 
 def get_tensorboard_logger(module: pl.LightningModule) -> Union[SummaryWriter, None]:
