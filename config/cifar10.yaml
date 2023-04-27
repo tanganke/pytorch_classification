@@ -1,0 +1,29 @@
+defaults:
+  - data: cifar10
+  - model: cifar10_resnet50
+  - optim: cifar10
+  - _self_
+
+exp_name: cifar10
+debug: false
+num_classes: 10
+max_epochs: 200
+
+trainer:
+  _target_: pytorch_lightning.Trainer
+  devices:
+    - 0
+  fast_dev_run: ${debug}
+  max_epochs: ${max_epochs}
+  logger:
+    _target_: pytorch_lightning.loggers.TensorBoardLogger
+    save_dir: tb_logs
+    name: ${exp_name}
+  callbacks:
+    - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+      logging_interval: step
+    - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+      save_last: true
+      save_top_k: 2
+      mode: max
+      monitor: val/accuracy
