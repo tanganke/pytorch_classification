@@ -23,19 +23,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-import sys
 import copy
-import torch
+import sys
 
-import torch.nn as nn
 import numpy as np
+import torch
+import torch.nn as nn
 
 try:
     from torch.hub import load_state_dict_from_url
 except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
+
 from functools import partial
-from typing import Union, List, Dict, Any, cast
+from typing import Any, Dict, List, Union, cast
 
 cifar10_pretrained_weight_urls = {
     'repvgg_a0': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/repvgg/cifar10_repvgg_a0-ef08a50e.pt',

@@ -32,15 +32,16 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 '''
 import sys
+
 import torch.nn as nn
+
 try:
     from torch.hub import load_state_dict_from_url
 except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
 
 from functools import partial
-from typing import Dict, Type, Any, Callable, Union, List, Optional
-
+from typing import Any, Callable, Dict, List, Optional, Type, Union
 
 cifar10_pretrained_weight_urls = {
     'resnet20': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/resnet/cifar10_resnet20-4118986f.pt',

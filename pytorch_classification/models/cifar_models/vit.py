@@ -24,23 +24,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-import sys
 import copy
 import math
+import sys
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-from torch.nn import CrossEntropyLoss, Dropout, Softmax, Linear, Conv2d, LayerNorm
+from torch.nn import Conv2d, CrossEntropyLoss, Dropout, LayerNorm, Linear, Softmax
 from torch.nn.modules.utils import _pair
+
 try:
     from torch.hub import load_state_dict_from_url
 except ImportError:
     from torch.utils.model_zoo import load_url as load_state_dict_from_url
 
 from functools import partial
-from typing import Dict, Type, Any, Callable, Union, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Type, Union
 
 cifar10_pretrained_weight_urls = {
     'vit_b16': '',
