@@ -1,4 +1,4 @@
-'''
+"""
 Modified from https://raw.githubusercontent.com/jeonsworld/ViT-pytorch/main/models/modeling.py
 
 MIT License
@@ -22,7 +22,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-'''
+"""
 
 import copy
 import math
@@ -43,19 +43,19 @@ from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Type, Union
 
 cifar10_pretrained_weight_urls = {
-    'vit_b16': '',
-    'vit_b32': '',
-    'vit_l16': '',
-    'vit_l32': '',
-    'vit_h14': '',
+    "vit_b16": "",
+    "vit_b32": "",
+    "vit_l16": "",
+    "vit_l32": "",
+    "vit_h14": "",
 }
 
 cifar100_pretrained_weight_urls = {
-    'vit_b16': '',
-    'vit_b32': '',
-    'vit_l16': '',
-    'vit_l32': '',
-    'vit_h14': '',
+    "vit_b16": "",
+    "vit_b32": "",
+    "vit_l16": "",
+    "vit_l32": "",
+    "vit_h14": "",
 }
 
 
@@ -157,11 +157,8 @@ class Embeddings(nn.Module):
         n_patches = (img_size[0] // patch_size[0]) * (img_size[1] // patch_size[1])
         self.hybrid = False
 
-        self.patch_embeddings = Conv2d(in_channels=in_channels,
-                                       out_channels=config.hidden_size,
-                                       kernel_size=patch_size,
-                                       stride=patch_size)
-        self.position_embeddings = nn.Parameter(torch.zeros(1, n_patches+1, config.hidden_size))
+        self.patch_embeddings = Conv2d(in_channels=in_channels, out_channels=config.hidden_size, kernel_size=patch_size, stride=patch_size)
+        self.position_embeddings = nn.Parameter(torch.zeros(1, n_patches + 1, config.hidden_size))
         self.cls_token = nn.Parameter(torch.zeros(1, 1, config.hidden_size))
 
         self.dropout = Dropout(config.transformer["dropout_rate"])
@@ -258,28 +255,16 @@ class VisionTransformer(nn.Module):
 class TestConfig:
     patches = dict(size=(16, 16))
     hidden_size = 1
-    transformer = dict(
-        mlp_dim=1,
-        num_heads=1,
-        num_layers=1,
-        attention_dropout_rate=0.0,
-        dropout_rate=0.1
-    )
-    classifier = 'token'
+    transformer = dict(mlp_dim=1, num_heads=1, num_layers=1, attention_dropout_rate=0.0, dropout_rate=0.1)
+    classifier = "token"
     representation_size = None
 
 
 class VitB16Config:
     patches = dict(size=(16, 16))
     hidden_size = 768
-    transformer = dict(
-        mlp_dim=3072,
-        num_heads=12,
-        num_layers=12,
-        attention_dropout_rate=0.0,
-        dropout_rate=0.1
-    )
-    classifier = 'token'
+    transformer = dict(mlp_dim=3072, num_heads=12, num_layers=12, attention_dropout_rate=0.0, dropout_rate=0.1)
+    classifier = "token"
     representation_size = None
 
 
@@ -290,14 +275,8 @@ class VitB32Config(VitB16Config):
 class VitL16Config:
     patches = dict(size=(16, 16))
     hidden_size = 1024
-    transformer = dict(
-        mlp_dim=4096,
-        num_heads=16,
-        num_layers=24,
-        attention_dropout_rate=0.0,
-        dropout_rate=0.1
-    )
-    classifier = 'token'
+    transformer = dict(mlp_dim=4096, num_heads=16, num_layers=24, attention_dropout_rate=0.0, dropout_rate=0.1)
+    classifier = "token"
     representation_size = None
 
 
@@ -308,60 +287,63 @@ class VitL32Config(VitL16Config):
 class VitH14Config:
     patches = dict(size=(14, 14))
     hidden_size = 1280
-    transformer = dict(
-        mlp_dim=5120,
-        num_heads=16,
-        num_layers=32,
-        attention_dropout_rate=0.0,
-        dropout_rate=0.1
-    )
-    classifier = 'token'
+    transformer = dict(mlp_dim=5120, num_heads=16, num_layers=32, attention_dropout_rate=0.0, dropout_rate=0.1)
+    classifier = "token"
     representation_size = None
 
 
-def _vit(
-    arch: str,
-    config: Any,
-    model_urls: Dict[str, str],
-    progress: bool = True,
-    pretrained: bool = False,
-    **kwargs: Any
-) -> VisionTransformer:
+def _vit(arch: str, config: Any, model_urls: Dict[str, str], progress: bool = True, pretrained: bool = False, **kwargs: Any) -> VisionTransformer:
     model = VisionTransformer(config=config, **kwargs)
     if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
+        state_dict = load_state_dict_from_url(model_urls[arch], progress=progress)
         model.load_state_dict(state_dict)
     return model
 
 
-def cifar10_vit_b16(*args, **kwargs) -> VisionTransformer: pass
-def cifar10_vit_b32(*args, **kwargs) -> VisionTransformer: pass
-def cifar10_vit_l16(*args, **kwargs) -> VisionTransformer: pass
-def cifar10_vit_l32(*args, **kwargs) -> VisionTransformer: pass
-def cifar10_vit_h14(*args, **kwargs) -> VisionTransformer: pass
+def cifar10_vit_b16(*args, **kwargs) -> VisionTransformer:
+    pass
 
 
-def cifar100_vit_b16(*args, **kwargs) -> VisionTransformer: pass
-def cifar100_vit_b32(*args, **kwargs) -> VisionTransformer: pass
-def cifar100_vit_l16(*args, **kwargs) -> VisionTransformer: pass
-def cifar100_vit_l32(*args, **kwargs) -> VisionTransformer: pass
-def cifar100_vit_h14(*args, **kwargs) -> VisionTransformer: pass
+def cifar10_vit_b32(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar10_vit_l16(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar10_vit_l32(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar10_vit_h14(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar100_vit_b16(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar100_vit_b32(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar100_vit_l16(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar100_vit_l32(*args, **kwargs) -> VisionTransformer:
+    pass
+
+
+def cifar100_vit_h14(*args, **kwargs) -> VisionTransformer:
+    pass
 
 
 thismodule = sys.modules[__name__]
 for dataset in ["cifar10", "cifar100"]:
-    for config, model_name in zip([VitB16Config, VitB32Config, VitL16Config, VitL32Config, VitH14Config],
-                                  ["vit_b16", "vit_b32", "vit_l16", "vit_l32", "vit_h14"]):
+    for config, model_name in zip([VitB16Config, VitB32Config, VitL16Config, VitL32Config, VitH14Config], ["vit_b16", "vit_b32", "vit_l16", "vit_l32", "vit_h14"]):
         method_name = f"{dataset}_{model_name}"
         model_urls = cifar10_pretrained_weight_urls if dataset == "cifar10" else cifar100_pretrained_weight_urls
         num_classes = 10 if dataset == "cifar10" else 100
-        setattr(
-            thismodule,
-            method_name,
-            partial(_vit,
-                    arch=model_name,
-                    config=config,
-                    model_urls=model_urls,
-                    num_classes=num_classes)
-        )
+        setattr(thismodule, method_name, partial(_vit, arch=model_name, config=config, model_urls=model_urls, num_classes=num_classes))

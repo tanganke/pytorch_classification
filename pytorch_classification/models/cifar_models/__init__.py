@@ -1,6 +1,8 @@
 """
 references:
     https://github.com/chenyaofo/pytorch-cifar-model
+    https://github.com/kuangliu/pytorch-cifar
+    https://github.com/kentaroy47/vision-transformers-cifar10
 """
 from .mobilenetv2 import (
     cifar10_mobilenetv2_x0_5,
@@ -20,16 +22,7 @@ from .repvgg import (
     cifar100_repvgg_a1,
     cifar100_repvgg_a2,
 )
-from .resnet import (
-    cifar10_resnet20,
-    cifar10_resnet32,
-    cifar10_resnet44,
-    cifar10_resnet56,
-    cifar100_resnet20,
-    cifar100_resnet32,
-    cifar100_resnet44,
-    cifar100_resnet56,
-)
+from .resnet import *
 from .shufflenetv2 import (
     cifar10_shufflenetv2_x0_5,
     cifar10_shufflenetv2_x1_0,

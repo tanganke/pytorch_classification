@@ -34,7 +34,7 @@ def log_confusion_matrix(tb_logger: SummaryWriter, tag: str, global_step: int, p
     tb_logger.add_figure(tag, disp.figure_, global_step)
 
 
-Batch = TypeVar("Batch", Tuple[Tensor, Tensor])
+Batch = TypeVar("Batch", bound=Tuple[Tensor, Tensor])
 
 
 class ERMClassificationModule(pl.LightningModule):
@@ -67,18 +67,18 @@ class ERMClassificationModule(pl.LightningModule):
         return logits
 
     def configure_optimizers(self):
-        optimizer = {}
+        optim = {}
         if "optimizer" in self.optim_cfg:
-            optimizer["optimizer"]: torch.optim.Optimizer = instantiate(
+            optim["optimizer"]: torch.optim.Optimizer = instantiate(
                 self.optim_cfg["optimizer"],
                 params=self.parameters(),
             )
         if "lr_scheduler" in self.optim_cfg:
-            optimizer["lr_scheduler"]: torch.optim.lr_scheduler.LRScheduler = instantiate(
+            optim["lr_scheduler"]: torch.optim.lr_scheduler.LRScheduler = instantiate(
                 self.optim_cfg["lr_scheduler"],
-                optimizer=optimizer,
+                optimizer=optim["optimizer"],
             )
-        return optimizer
+        return optim
 
     def training_step(self, batch: Batch, batch_idx: int):
         # data argumentation
