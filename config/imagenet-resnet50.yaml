@@ -1,0 +1,33 @@
+defaults:
+  - data: imagenet
+  - optim: imagenet_SGD_stepLR
+  - _self_
+
+exp_name: imagenet-resnet50
+debug: false
+seed: null
+num_classes: 1000
+max_epochs: 90
+
+model:
+  _target_: torchvision.models.resnet50
+
+trainer:
+  _target_: pytorch_lightning.Trainer
+  devices:
+    - 0
+    - 1
+  fast_dev_run: ${debug}
+  max_epochs: ${max_epochs}
+  logger:
+    _target_: pytorch_lightning.loggers.TensorBoardLogger
+    save_dir: tb_logs
+    name: ${exp_name}
+  callbacks:
+    - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+      logging_interval: step
+    - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+      save_last: true
+      save_top_k: 2
+      mode: max
+      monitor: val/accuracy

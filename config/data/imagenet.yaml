@@ -1,5 +1,5 @@
 batch_size: 256
-num_workers: 8
+num_workers: 16
 root: datasets/ILSVRC-2012
 
 train_dataset:
