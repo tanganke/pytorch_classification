@@ -1,4 +1,4 @@
-'''
+"""
 Modified from https://raw.githubusercontent.com/pytorch/vision/v0.9.1/torchvision/models/mobilenetv2.py
 
 BSD 3-Clause License
@@ -30,7 +30,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-'''
+"""
 import sys
 
 import torch
@@ -45,17 +45,17 @@ from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Type, Union
 
 cifar10_pretrained_weight_urls = {
-    'mobilenetv2_x0_5': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x0_5-ca14ced9.pt',
-    'mobilenetv2_x0_75': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x0_75-a53c314e.pt',
-    'mobilenetv2_x1_0': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x1_0-fe6a5b48.pt',
-    'mobilenetv2_x1_4': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x1_4-3bbbd6e2.pt',
+    "mobilenetv2_x0_5": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x0_5-ca14ced9.pt",
+    "mobilenetv2_x0_75": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x0_75-a53c314e.pt",
+    "mobilenetv2_x1_0": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x1_0-fe6a5b48.pt",
+    "mobilenetv2_x1_4": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar10_mobilenetv2_x1_4-3bbbd6e2.pt",
 }
 
 cifar100_pretrained_weight_urls = {
-    'mobilenetv2_x0_5': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x0_5-9f915757.pt',
-    'mobilenetv2_x0_75': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x0_75-d7891e60.pt',
-    'mobilenetv2_x1_0': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x1_0-1311f9ff.pt',
-    'mobilenetv2_x1_4': 'https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x1_4-8a269f5e.pt',
+    "mobilenetv2_x0_5": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x0_5-9f915757.pt",
+    "mobilenetv2_x0_75": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x0_75-d7891e60.pt",
+    "mobilenetv2_x1_0": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x1_0-1311f9ff.pt",
+    "mobilenetv2_x1_4": "https://github.com/chenyaofo/pytorch-cifar-models/releases/download/mobilenetv2/cifar100_mobilenetv2_x1_4-8a269f5e.pt",
 }
 
 
@@ -93,10 +93,7 @@ class ConvBNActivation(nn.Sequential):
         if activation_layer is None:
             activation_layer = nn.ReLU6
         super(ConvBNReLU, self).__init__(
-            nn.Conv2d(in_planes, out_planes, kernel_size, stride, padding, dilation=dilation, groups=groups,
-                      bias=False),
-            norm_layer(out_planes),
-            activation_layer(inplace=True)
+            nn.Conv2d(in_planes, out_planes, kernel_size, stride, padding, dilation=dilation, groups=groups, bias=False), norm_layer(out_planes), activation_layer(inplace=True)
         )
         self.out_channels = out_planes
 
@@ -106,14 +103,7 @@ ConvBNReLU = ConvBNActivation
 
 
 class InvertedResidual(nn.Module):
-    def __init__(
-        self,
-        inp: int,
-        oup: int,
-        stride: int,
-        expand_ratio: int,
-        norm_layer: Optional[Callable[..., nn.Module]] = None
-    ) -> None:
+    def __init__(self, inp: int, oup: int, stride: int, expand_ratio: int, norm_layer: Optional[Callable[..., nn.Module]] = None) -> None:
         super(InvertedResidual, self).__init__()
         self.stride = stride
         assert stride in [1, 2]
@@ -128,13 +118,15 @@ class InvertedResidual(nn.Module):
         if expand_ratio != 1:
             # pw
             layers.append(ConvBNReLU(inp, hidden_dim, kernel_size=1, norm_layer=norm_layer))
-        layers.extend([
-            # dw
-            ConvBNReLU(hidden_dim, hidden_dim, stride=stride, groups=hidden_dim, norm_layer=norm_layer),
-            # pw-linear
-            nn.Conv2d(hidden_dim, oup, 1, 1, 0, bias=False),
-            norm_layer(oup),
-        ])
+        layers.extend(
+            [
+                # dw
+                ConvBNReLU(hidden_dim, hidden_dim, stride=stride, groups=hidden_dim, norm_layer=norm_layer),
+                # pw-linear
+                nn.Conv2d(hidden_dim, oup, 1, 1, 0, bias=False),
+                norm_layer(oup),
+            ]
+        )
         self.conv = nn.Sequential(*layers)
         self.out_channels = oup
         self._is_cn = stride > 1
@@ -154,7 +146,7 @@ class MobileNetV2(nn.Module):
         inverted_residual_setting: Optional[List[List[int]]] = None,
         round_nearest: int = 8,
         block: Optional[Callable[..., nn.Module]] = None,
-        norm_layer: Optional[Callable[..., nn.Module]] = None
+        norm_layer: Optional[Callable[..., nn.Module]] = None,
     ) -> None:
         """
         MobileNet V2 main class
@@ -194,8 +186,7 @@ class MobileNetV2(nn.Module):
 
         # only check the first element, assuming user knows t,c,n,s are required
         if len(inverted_residual_setting) == 0 or len(inverted_residual_setting[0]) != 4:
-            raise ValueError("inverted_residual_setting should be non-empty "
-                             "or a 4-element list, got {}".format(inverted_residual_setting))
+            raise ValueError("inverted_residual_setting should be non-empty " "or a 4-element list, got {}".format(inverted_residual_setting))
 
         # building first layer
         input_channel = _make_divisible(input_channel * width_mult, round_nearest)
@@ -222,7 +213,7 @@ class MobileNetV2(nn.Module):
         # weight initialization
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out')
+                nn.init.kaiming_normal_(m.weight, mode="fan_out")
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
             elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
@@ -246,47 +237,50 @@ class MobileNetV2(nn.Module):
         return self._forward_impl(x)
 
 
-def _mobilenet_v2(
-    arch: str,
-    width_mult: List[int],
-    model_urls: Dict[str, str],
-    progress: bool = True,
-    pretrained: bool = False,
-    **kwargs: Any
-) -> MobileNetV2:
+def _mobilenet_v2(arch: str, width_mult: List[int], model_urls: Dict[str, str], progress: bool = True, pretrained: bool = False, **kwargs: Any) -> MobileNetV2:
     model = MobileNetV2(width_mult=width_mult, **kwargs)
     if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
+        state_dict = load_state_dict_from_url(model_urls[arch], progress=progress)
         model.load_state_dict(state_dict)
     return model
 
 
-def cifar10_mobilenetv2_x0_5(*args, **kwargs) -> MobileNetV2: pass
-def cifar10_mobilenetv2_x0_75(*args, **kwargs) -> MobileNetV2: pass
-def cifar10_mobilenetv2_x1_0(*args, **kwargs) -> MobileNetV2: pass
-def cifar10_mobilenetv2_x1_4(*args, **kwargs) -> MobileNetV2: pass
+def cifar10_mobilenetv2_x0_5(*args, **kwargs) -> MobileNetV2:
+    pass
 
 
-def cifar100_mobilenetv2_x0_5(*args, **kwargs) -> MobileNetV2: pass
-def cifar100_mobilenetv2_x0_75(*args, **kwargs) -> MobileNetV2: pass
-def cifar100_mobilenetv2_x1_0(*args, **kwargs) -> MobileNetV2: pass
-def cifar100_mobilenetv2_x1_4(*args, **kwargs) -> MobileNetV2: pass
+def cifar10_mobilenetv2_x0_75(*args, **kwargs) -> MobileNetV2:
+    pass
+
+
+def cifar10_mobilenetv2_x1_0(*args, **kwargs) -> MobileNetV2:
+    pass
+
+
+def cifar10_mobilenetv2_x1_4(*args, **kwargs) -> MobileNetV2:
+    pass
+
+
+def cifar100_mobilenetv2_x0_5(*args, **kwargs) -> MobileNetV2:
+    pass
+
+
+def cifar100_mobilenetv2_x0_75(*args, **kwargs) -> MobileNetV2:
+    pass
+
+
+def cifar100_mobilenetv2_x1_0(*args, **kwargs) -> MobileNetV2:
+    pass
+
+
+def cifar100_mobilenetv2_x1_4(*args, **kwargs) -> MobileNetV2:
+    pass
 
 
 thismodule = sys.modules[__name__]
 for dataset in ["cifar10", "cifar100"]:
-    for width_mult, model_name in zip([0.5, 0.75, 1.0, 1.4],
-                                      ["mobilenetv2_x0_5", "mobilenetv2_x0_75", "mobilenetv2_x1_0", "mobilenetv2_x1_4"]):
+    for width_mult, model_name in zip([0.5, 0.75, 1.0, 1.4], ["mobilenetv2_x0_5", "mobilenetv2_x0_75", "mobilenetv2_x1_0", "mobilenetv2_x1_4"]):
         method_name = f"{dataset}_{model_name}"
         model_urls = cifar10_pretrained_weight_urls if dataset == "cifar10" else cifar100_pretrained_weight_urls
         num_classes = 10 if dataset == "cifar10" else 100
-        setattr(
-            thismodule,
-            method_name,
-            partial(_mobilenet_v2,
-                    arch=model_name,
-                    width_mult=width_mult,
-                    model_urls=model_urls,
-                    num_classes=num_classes)
-        )
+        setattr(thismodule, method_name, partial(_mobilenet_v2, arch=model_name, width_mult=width_mult, model_urls=model_urls, num_classes=num_classes))
