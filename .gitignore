@@ -2,6 +2,7 @@
 /tb_logs/
 /datasets/
 /checkpoints/
+/.hydra
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
