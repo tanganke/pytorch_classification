@@ -6,7 +6,8 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
-__all__ = ['test_num_workers']
+__all__ = ["test_num_workers"]
+
 
 def test_num_workers(
     dataset: Dataset,

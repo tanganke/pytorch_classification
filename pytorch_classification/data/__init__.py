@@ -23,4 +23,3 @@ def num_samples(dataloader: DataLoader):
         raise NotImplementedError(f"unsupported batch type, {type(batch)}")
 
     return n
-

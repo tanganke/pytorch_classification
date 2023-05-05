@@ -1,14 +1,25 @@
+# (ICLR 2021) Huang etc. Unlearnable Examples: Making Personal Data Unexploitable
 batch_size: 256
 num_workers: 8
 
-train_dataset:
+clean_train_dataset:
   _target_: torchvision.datasets.CIFAR10
   root: datasets/CIFAR10
   train: true
   transform:
     _partial_: true
-    _target_: pytorch_classification.transforms.cifar.train_transform
+    _target_: pytorch_classification.transforms.to_tensor
   download: false
+
+unclean_train_dataset:
+  _target_: pytorch_classification.perturbations.unclear_dataset.SamplewiseUncleanDataset
+  dataset: ${..clean_train_dataset}
+  noise:
+    _target_: torch.load
+    f: datasets/noise/cifar10_samplewise-error_min_noise.pt
+  perturb_ratio: 1
+
+train_dataset: ${.unclean_train_dataset}
 
 val_dataset:
   _target_: torchvision.datasets.CIFAR10
@@ -16,7 +27,7 @@ val_dataset:
   train: false
   transform:
     _partial_: true
-    _target_: pytorch_classification.transforms.cifar.val_transform
+    _target_: pytorch_classification.transforms.to_tensor
   download: false
 
 train_loader:

@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 """
 extrate plain state dict from pytorch lightning checkpoint file.
 
