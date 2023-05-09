@@ -33,8 +33,9 @@ def main(cfg: DictConfig):
 
     trainer: pl.Trainer = instantiate(cfg.trainer)
 
-    train_loader: DataLoader = instantiate(cfg.data.train_loader)
+    train_loader: DataLoader = instantiate(cfg.data.train_loader) if "train_loader" in cfg.data else None
     val_loader: Optional[DataLoader] = instantiate(cfg.data.val_loader) if "val_loader" in cfg.data else None
+    test_loader: Optional[DataLoader] = instantiate(cfg.data.test_loader) if "test_loader" in cfg.data else None
 
     model: nn.Module = instantiate(cfg.model)
     module = ERMClassificationModule(
@@ -43,11 +44,18 @@ def main(cfg: DictConfig):
         optim_cfg=cfg.optim,
     )
 
-    trainer.fit(
-        module,
-        train_dataloaders=train_loader,
-        val_dataloaders=val_loader,
-    )
+    if train_loader is not None:
+        trainer.fit(
+            module,
+            train_dataloaders=train_loader,
+            val_dataloaders=val_loader,
+        )
+
+    if test_loader is not None:
+        trainer.test(
+            module,
+            dataloaders=test_loader,
+        )
 
 
 if __name__ == "__main__":
