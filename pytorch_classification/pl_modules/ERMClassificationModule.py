@@ -1,6 +1,7 @@
 """
 empirical risk minimization
 """
+import logging
 import os
 from typing import Callable, Optional, Tuple, TypeVar, Union
 
@@ -14,6 +15,8 @@ from omegaconf import DictConfig
 from torch import Tensor
 from torch.utils.tensorboard import SummaryWriter
 from torchmetrics.classification import MulticlassAccuracy
+
+log = logging.getLogger(__name__)
 
 
 def get_tensorboard_logger(module: pl.LightningModule) -> Union[SummaryWriter, None]:
@@ -78,6 +81,8 @@ class ERMClassificationModule(pl.LightningModule):
                 self.optim_cfg["lr_scheduler"],
                 optimizer=optim["optimizer"],
             )
+        log.info(f"{'configure_optimizers':=^50}")
+        log.info(optim)
         return optim
 
     def training_step(self, batch: Batch, batch_idx: int):

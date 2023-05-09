@@ -15,6 +15,7 @@ from torch.utils.data import DataLoader
 
 from pytorch_classification.pl_modules import ERMClassificationModule
 from pytorch_classification.utils.logging import pprint_yaml, setup_colorlogging
+from pytorch_classification.utils import TimeIt
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -31,19 +32,24 @@ def main(cfg: DictConfig):
     if cfg.seed is not None:
         pl.seed_everything(cfg.seed)
 
-    trainer: pl.Trainer = instantiate(cfg.trainer)
+    # load data
+    with TimeIt("load data", log.info):
+        train_loader: DataLoader = instantiate(cfg.data.train_loader) if "train_loader" in cfg.data else None
+        val_loader: Optional[DataLoader] = instantiate(cfg.data.val_loader) if "val_loader" in cfg.data else None
+        test_loader: Optional[DataLoader] = instantiate(cfg.data.test_loader) if "test_loader" in cfg.data else None
 
-    train_loader: DataLoader = instantiate(cfg.data.train_loader) if "train_loader" in cfg.data else None
-    val_loader: Optional[DataLoader] = instantiate(cfg.data.val_loader) if "val_loader" in cfg.data else None
-    test_loader: Optional[DataLoader] = instantiate(cfg.data.test_loader) if "test_loader" in cfg.data else None
-
-    model: nn.Module = instantiate(cfg.model)
+    # load model
+    with TimeIt("load model", log.info):
+        model: nn.Module = instantiate(cfg.model)
+        log.info(f"{'model':=^50}")
+        log.info(model)
     module = ERMClassificationModule(
         model,
         num_classes=cfg.num_classes,
         optim_cfg=cfg.optim,
     )
 
+    trainer: pl.Trainer = instantiate(cfg.trainer)
     if train_loader is not None:
         trainer.fit(
             module,
