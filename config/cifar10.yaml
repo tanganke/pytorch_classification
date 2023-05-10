@@ -6,14 +6,15 @@ defaults:
 
 exp_name: cifar10
 debug: false
+devices:
+  - 0
 seed: null
 num_classes: 10
 max_epochs: 200
 
 trainer:
   _target_: pytorch_lightning.Trainer
-  devices:
-    - 0
+  devices: ${devices}
   fast_dev_run: ${debug}
   max_epochs: ${max_epochs}
   logger:
