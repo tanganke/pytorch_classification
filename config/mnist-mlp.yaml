@@ -1,0 +1,31 @@
+defaults:
+  - data: mnist
+  - model: mnist_mlp
+  - optim: cifar_SGD_cosine
+  - _self_
+
+exp_name: mnist-mlp
+debug: false
+devices:
+  - 0
+seed: null
+num_classes: 10
+max_epochs: 50
+
+trainer:
+  _target_: pytorch_lightning.Trainer
+  devices: ${devices}
+  fast_dev_run: ${debug}
+  max_epochs: ${max_epochs}
+  logger:
+    _target_: pytorch_lightning.loggers.TensorBoardLogger
+    save_dir: tb_logs
+    name: ${exp_name}
+  callbacks:
+    - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+      logging_interval: step
+    - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+      save_last: true
+      save_top_k: 2
+      mode: max
+      monitor: val/accuracy

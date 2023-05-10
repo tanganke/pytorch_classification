@@ -1,0 +1,38 @@
+batch_size: 256
+num_workers: 8
+
+transform:
+  _target_: pytorch_classification.transforms.mnist.transform
+  _partial_: true
+
+download: false
+
+train_dataset:
+  _target_: torchvision.datasets.MNIST
+  root: datasets/MNIST
+  train: true
+  transform: ${..transform}
+  download: ${..download}
+
+val_dataset:
+  _target_: torchvision.datasets.MNIST
+  root: datasets/MNIST
+  train: false
+  transform: ${..transform}
+  download: ${..download}
+
+train_loader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ${..train_dataset}
+  shuffle: true
+  batch_size: ${..batch_size}
+  num_workers: ${..num_workers}
+  pin_memory: true
+
+val_loader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ${..val_dataset}
+  shuffle: false
+  batch_size: ${..batch_size}
+  num_workers: ${..num_workers}
+  pin_memory: true

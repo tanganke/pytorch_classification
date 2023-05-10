@@ -1,0 +1,19 @@
+# reference: 
+# [1] S. K. Ainsworth, J. Hayase, and S. Srinivasa, 
+#     “Git Re-Basin: Merging Models modulo Permutation Symmetries.” arXiv, Mar. 01, 2023. 
+#     Available: http://arxiv.org/abs/2209.04836
+#     Code: https://github.com/samuela/git-re-basin
+_target_: torch.nn.Sequential
+_args_:
+  - _target_: torch.nn.Flatten
+  - _target_: pytorch_classification.models.MLP
+    sizes:
+      - 784 # 28 * 28
+      - 512
+      - 512
+      - 512
+      - 10
+    bias: true
+    activation_fn:
+      _target_: torch.nn.ReLU
+      _partial_: true
