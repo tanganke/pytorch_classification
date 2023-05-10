@@ -5,5 +5,5 @@ setup(
     version="0.0.1",
     anthor="tanganke",
     packages=["pytorch_classification"],
-    requires=["hydra", "matplotlib"],
+    requires=["hydra-core", "matplotlib", "pytorch_lightning"],
 )
