@@ -5,7 +5,7 @@ EM noise
 """
 import itertools
 import logging
-from typing import Tuple, Iterable
+from typing import Iterable, Tuple
 
 import numpy as np
 import torch

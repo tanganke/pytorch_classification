@@ -1,4 +1,7 @@
-pytorch_lightning
-hydra-core
 rich
 multipledispatch
+hydra-core
+pytorch_lightning
+torchshow
+loss-landscapes
+scipy

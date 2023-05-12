@@ -1,6 +1,7 @@
-from torch import nn, Tensor
-import torch
 from copy import deepcopy
+
+import torch
+from torch import Tensor, nn
 
 
 def linear_interp(model_x: nn.Module, model_y: nn.Module, alpha: float):
