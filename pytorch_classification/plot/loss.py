@@ -10,7 +10,7 @@ Referneces:
     [1] Visualizing the Loss Landscape of Neural Nets.
 
 """
-from typing import Tuple
+from typing import Callable, Tuple
 
 import loss_landscapes
 import torch
@@ -23,7 +23,7 @@ from torch.types import _device
 
 def get_metric(
     batch: Tuple[Tensor, Tensor],
-    loss_fn=F.cross_entropy,
+    loss_fn: Callable[[Tensor, Tensor], Tensor] = F.cross_entropy,
     device: _device = None,
 ):
     inputs, targets = batch
