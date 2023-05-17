@@ -1,6 +1,8 @@
 batch_size: 256
 num_workers: 8
 
+root: datasets/MNIST
+
 transform:
   _target_: pytorch_classification.transforms.mnist.transform
   _partial_: true
@@ -9,14 +11,14 @@ download: false
 
 train_dataset:
   _target_: torchvision.datasets.MNIST
-  root: datasets/MNIST
+  root: ${..root}
   train: true
   transform: ${..transform}
   download: ${..download}
 
 val_dataset:
   _target_: torchvision.datasets.MNIST
-  root: datasets/MNIST
+  root: ${..root}
   train: false
   transform: ${..transform}
   download: ${..download}

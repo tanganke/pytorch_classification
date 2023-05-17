@@ -1,6 +1,20 @@
 #! /usr/bin/env python3
-"""
+R"""
 train classifier, ERM optimization.
+
+config layout:
+
+```yaml
+data:
+  train_loader  # instantiatable
+  [val_loader]  # instantiatable
+  [test_loader] # instantiatable
+
+model           # instantiatable
+
+trainer         # instantiatable
+```
+
 """
 import logging
 import os

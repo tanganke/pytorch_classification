@@ -1,22 +1,29 @@
 batch_size: 256
 num_workers: 8
 
+# path to the dataset
+root: datasets/CIFAR10
+
+train_transform:
+  _partial_: true
+  _target_: pytorch_classification.transforms.cifar.train_transform
+
+val_transform:
+  _partial_: true
+  _target_: pytorch_classification.transforms.cifar.val_transform
+
 train_dataset:
   _target_: torchvision.datasets.CIFAR10
-  root: datasets/CIFAR10
+  root: ${..root}
   train: true
-  transform:
-    _partial_: true
-    _target_: pytorch_classification.transforms.cifar.train_transform
+  transform: ${..train_transform}
   download: false
 
 val_dataset:
   _target_: torchvision.datasets.CIFAR10
-  root: datasets/CIFAR10
+  root: ${..root}
   train: false
-  transform:
-    _partial_: true
-    _target_: pytorch_classification.transforms.cifar.val_transform
+  transform: ${..val_transform}
   download: false
 
 train_loader:

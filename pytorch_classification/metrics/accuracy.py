@@ -7,5 +7,4 @@ def accuracy(logits: Tensor, targets: Tensor):
     assert len(logits) == len(targets)
     predictions = logits.argmax(-1)
     acc = (predictions == targets).sum() / len(targets)
-    acc = acc.item()
     return acc
