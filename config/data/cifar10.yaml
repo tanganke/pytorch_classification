@@ -1,3 +1,6 @@
+# NOTE:
+#   the structure of config is corrsponding to the python code for construting objects, see comments below for more details.
+
 batch_size: 256
 num_workers: 8
 
@@ -12,6 +15,7 @@ val_transform:
   _partial_: true
   _target_: pytorch_classification.transforms.cifar.val_transform
 
+# torchvision.datasets.CIFAR10(root=root, train=True, transform=train_transform, download=False)
 train_dataset:
   _target_: torchvision.datasets.CIFAR10
   root: ${..root}
@@ -19,6 +23,7 @@ train_dataset:
   transform: ${..train_transform}
   download: false
 
+# torchvision.datasets.CIFAR10(root=root, train=False, transform=val_transform, download=False)
 val_dataset:
   _target_: torchvision.datasets.CIFAR10
   root: ${..root}
@@ -26,6 +31,7 @@ val_dataset:
   transform: ${..val_transform}
   download: false
 
+# torch.utils.data.DataLoader(dataset=train_dataset, shuffle=True, batch_size=batch_size, num_workers=num_workers, pin_memory=True)
 train_loader:
   _target_: torch.utils.data.DataLoader
   dataset: ${..train_dataset}
@@ -33,7 +39,8 @@ train_loader:
   batch_size: ${..batch_size}
   num_workers: ${..num_workers}
   pin_memory: true
-
+  
+# torch.utils.data.DataLoader(dataset=val_dataset, shuffle=False, batch_size=batch_size, num_workers=num_workers, pin_memory=True)
 val_loader:
   _target_: torch.utils.data.DataLoader
   dataset: ${..val_dataset}
