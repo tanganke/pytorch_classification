@@ -1,5 +1,5 @@
 """
-EM noise
+This module contains functions for generating sample-wise and class-wise error-minimizing noise for a given PyTorch model.
 
     (ICLR 2021) Huang etc. Unlearnable Examples: Making Personal Data Unexploitable
 """
@@ -22,6 +22,16 @@ def to_device(
     batch: Iterable[Tensor],
     device: torch.device,
 ):
+    """
+    Move tensors in batch to the specified device.
+
+    Args:
+    - batch: Iterable[Tensor]: A batch of tensors.
+    - device: torch.device: The device to move the tensors to.
+
+    Returns:
+    - Tuple[Tensor]: A tuple of tensors moved to the specified device.
+    """
     return tuple(t.to(device) for t in batch)
 
 
@@ -30,6 +40,18 @@ def train_batch(
     batch: Tuple[Tensor, Tensor],
     optimizer: torch.optim.Optimizer,
 ):
+    """
+    Trains the given PyTorch model on a batch of data.
+    optimize the the model with respect to the cross-entropy loss.
+
+    Args:
+        model (nn.Module): The PyTorch model to train.
+        batch (Tuple[Tensor, Tensor]): A tuple containing the input data and its corresponding labels.
+        optimizer (torch.optim.Optimizer): The optimizer to use for training.
+
+    Returns:
+        None
+    """
     images, labels = batch
     logits = model(images)
     loss = F.cross_entropy(logits, labels)
