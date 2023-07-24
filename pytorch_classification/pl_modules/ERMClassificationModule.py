@@ -44,6 +44,17 @@ class ERMClassificationModule(pl.LightningModule):
     """
     Empirical Risk Minimization module for classification,
         minimize the cross entropy loss.
+
+    Args:
+        model (nn.Module): PyTorch model to use for classification.
+        num_classes (int): Number of classes in the classification problem.
+        optim_cfg (DictConfig): Configuration for the optimizer and learning rate scheduler.
+        argumentation_fn (Optional[Callable[[Batch], Batch]]): Function to use for data argumentation.
+
+    Attributes:
+        train_acc (MulticlassAccuracy): Multiclass accuracy metric for training set.
+        val_acc (MulticlassAccuracy): Multiclass accuracy metric for validation set.
+        test_acc (MulticlassAccuracy): Multiclass accuracy metric for test set.
     """
 
     def __init__(
@@ -65,11 +76,25 @@ class ERMClassificationModule(pl.LightningModule):
         self.test_acc = MulticlassAccuracy(num_classes=num_classes)
 
     def forward(self, x: Tensor) -> Tensor:
-        "compute unnormalized probabilities (logits)"
+        """
+        Compute unnormalized probabilities (logits).
+
+        Args:
+            x (Tensor): Input tensor.
+
+        Returns:
+            Tensor: Unnormalized probabilities (logits).
+        """
         logits = self.model(x)
         return logits
 
     def configure_optimizers(self):
+        """
+        Configure the optimizer and learning rate scheduler.
+
+        Returns:
+            Dict: Dictionary containing the optimizer and learning rate scheduler.
+        """
         optim = {}
         if "optimizer" in self.optim_cfg:
             optim["optimizer"]: torch.optim.Optimizer = instantiate(
