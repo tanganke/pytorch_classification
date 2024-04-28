@@ -6,8 +6,8 @@ import logging
 import os
 from typing import Callable, Optional, Tuple, TypeVar, Union
 
-import pytorch_lightning as pl
-import pytorch_lightning.loggers as pl_loggers
+import lightning.pytorch as pl
+import lightning.pytorch.loggers as pl_loggers
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

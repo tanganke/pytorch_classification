@@ -7,7 +7,7 @@ import os
 from typing import Optional
 
 import hydra
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 import torch
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
@@ -64,6 +64,7 @@ class ERMClassificationModule(_ERMClassificationModule):
 
 def main():
     pl.seed_everything(args.seed)
+    assert args.batch_size % args.devices == 0, "batch_size must be divisible by devices"
 
     # setup model
     model_path = args.model
@@ -86,13 +87,13 @@ def main():
     train_dataset, test_dataset = load_clip_dataset(args.dataset, processor)
     train_loader = DataLoader(
         train_dataset,
-        batch_size=args.batch_size,
+        batch_size=args.batch_size // args.devices,
         shuffle=True,
         num_workers=args.num_workers,
     )
     val_loader = DataLoader(
         test_dataset,
-        batch_size=args.batch_size,
+        batch_size=args.batch_size // args.devices,
         shuffle=False,
         num_workers=args.num_workers,
     )

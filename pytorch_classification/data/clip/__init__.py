@@ -3,7 +3,7 @@ from datasets import load_dataset
 from .clip_dataset import CLIPDataset
 
 
-def get_classnames_and_templates(dataset_name):
+def get_classnames_and_templates(dataset_name:str):
     if dataset_name == "mnist":
         from .mnist import classnames, templates
     elif dataset_name == "tanganke/stanford_cars" or dataset_name == "stanford_cars":
@@ -23,6 +23,8 @@ def get_classnames_and_templates(dataset_name):
     elif dataset_name == "cifar100":
         from .cifar100 import fine_label as classnames
         from .cifar100 import templates
+    elif dataset_name.endswith("tanganke/sun397"):
+        from .sun397 import classnames, templates
     else:
         raise ValueError(f"Unknown dataset {dataset_name}")
     return classnames, templates

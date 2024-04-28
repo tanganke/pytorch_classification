@@ -21,7 +21,7 @@ import os
 from typing import Optional
 
 import hydra
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 from torch import nn
