@@ -1,6 +1,7 @@
 """
 empirical risk minimization
 """
+
 import logging
 import os
 from typing import Callable, Optional, Tuple, TypeVar, Union
@@ -61,7 +62,7 @@ class ERMClassificationModule(pl.LightningModule):
         self,
         model: nn.Module,
         num_classes: int,
-        optim_cfg: DictConfig,
+        optim_cfg: Optional[DictConfig] = None,
         argumentation_fn: Optional[Callable[[Batch], Batch]] = None,
     ):
         super().__init__()
