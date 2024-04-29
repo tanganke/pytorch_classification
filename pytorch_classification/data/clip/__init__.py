@@ -3,7 +3,7 @@ from datasets import load_dataset
 from .clip_dataset import CLIPDataset
 
 
-def get_classnames_and_templates(dataset_name:str):
+def get_classnames_and_templates(dataset_name: str):
     if dataset_name == "mnist":
         from .mnist import classnames, templates
     elif dataset_name == "tanganke/stanford_cars" or dataset_name == "stanford_cars":
@@ -25,6 +25,14 @@ def get_classnames_and_templates(dataset_name:str):
         from .cifar100 import templates
     elif dataset_name.endswith("tanganke/sun397"):
         from .sun397 import classnames, templates
+    elif dataset_name == "nateraw/rendered-sst2":
+        from .rendered_sst2 import classnames, templates
+    elif dataset_name == "tanganke/stl10":
+        from .stl10 import classnames, templates
+    elif dataset_name == "dpdl-benchmark/oxford_flowers102":
+        from .flower102 import classnames, templates
+    elif dataset_name == "timm/oxford-iiit-pet":
+        from .oxford_iiit_pet import classnames, templates
     else:
         raise ValueError(f"Unknown dataset {dataset_name}")
     return classnames, templates
@@ -40,6 +48,10 @@ def _load_hf_dataset(dataset_name):
     elif dataset_name == "cifar100":
         dataset = load_dataset(dataset_name)
         dataset = dataset.remove_columns(["coarse_label"]).rename_columns({"img": "image", "fine_label": "label"})
+        return dataset
+    elif dataset_name == "timm/oxford-iiit-pet":
+        dataset = load_dataset(dataset_name)
+        dataset = dataset.remove_columns(["image_id", "label_cat_dog"])
         return dataset
     else:
         return load_dataset(dataset_name)

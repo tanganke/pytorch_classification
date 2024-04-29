@@ -111,10 +111,10 @@ def main():
             train_dataloaders=train_loader,
             val_dataloaders=val_loader,
         )
-
     trainer.test(module, dataloaders=val_loader)
 
-    print(f"log_dir: {trainer.log_dir}")
+    if trainer.is_global_zero:
+        print(f"log_dir: {trainer.log_dir}")
 
 
 if __name__ == "__main__":
