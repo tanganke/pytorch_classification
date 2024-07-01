@@ -9,5 +9,8 @@ setup(
         "matplotlib",
         "scikit-learn",
         "torchshow",
+        "lightning",
+        "rich",
+        "hydra-core"
     ],
 )
