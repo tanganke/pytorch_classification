@@ -125,11 +125,11 @@ class CLIPTemplateFactory:
 
         The expected format and contents of `dataset_info` can vary depending on the needs of the dataset being registered, but typically, it includes the following keys:
 
-        - "module": A string specifying the module path where the dataset's related classes and functions are located. 
+        - "module": A string specifying the module path where the dataset's related classes and functions are located.
             This is used for dynamic import of the dataset's class names and templates.
-        - "classnames": This key is expected to hold the name of the attribute or variable in the specified module that contains a list of class names relevant to the dataset. 
+        - "classnames": This key is expected to hold the name of the attribute or variable in the specified module that contains a list of class names relevant to the dataset.
             These class names are used to label data points in the dataset.
-        - "templates": Similar to "classnames", this key should specify the name of the attribute or variable in the module that contains a list of template callables. 
+        - "templates": Similar to "classnames", this key should specify the name of the attribute or variable in the module that contains a list of template callables.
             These templates are functions or methods that define how data points should be processed or transformed.
 
         Args:
@@ -182,7 +182,7 @@ def _load_hf_dataset(dataset_name):
         dataset = dataset.remove_columns(["image_id", "label_cat_dog"])
         return dataset
     else:
-        # handle all other datasets, expect two columns: image, label, 
+        # handle all other datasets, expect two columns: image, label,
         # example: https://huggingface.co/datasets/tanganke/resisc45
         return load_dataset(dataset_name)
 

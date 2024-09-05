@@ -10,6 +10,7 @@ Referneces:
     [1] Visualizing the Loss Landscape of Neural Nets.
 
 """
+
 from typing import Callable, Tuple
 
 import loss_landscapes

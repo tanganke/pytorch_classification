@@ -5,6 +5,6 @@ from .gtsrb import GTSRBDataModule
 from .imagenet import ImageNetDataModule
 from .mnist import MNISTDataModule
 from .resisc45 import RESISC45DataModule
+from .stanford_cars import StanfordCarsDataModule
 from .sun397 import SUN397DataModule
 from .svhn import SVHNDataModule
-from .stanford_cars import StanfordCarsDataModule

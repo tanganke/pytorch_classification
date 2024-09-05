@@ -3,6 +3,7 @@ This module contains functions for generating sample-wise and class-wise error-m
 
     (ICLR 2021) Huang etc. Unlearnable Examples: Making Personal Data Unexploitable
 """
+
 import itertools
 import logging
 from typing import Iterable, Tuple

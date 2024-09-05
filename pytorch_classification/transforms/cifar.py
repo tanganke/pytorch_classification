@@ -1,6 +1,7 @@
 """
 Standard CIFAR Argumentation
 """
+
 from torchvision import transforms
 
 to_tensor = transforms.ToTensor()
