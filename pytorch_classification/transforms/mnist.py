@@ -1,6 +1,7 @@
 """
 https://github.com/pytorch/examples/blob/main/mnist/main.py
 """
+
 from torchvision import transforms
 from torchvision.datasets import MNIST
 

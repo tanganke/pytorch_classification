@@ -2,6 +2,7 @@
 
 SENet is the winner of ImageNet-2017. The paper is not released yet.
 """
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

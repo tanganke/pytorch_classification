@@ -75,10 +75,7 @@ class PyTorchGTSRB(VisionDataset):
             )
         else:
             with open(self._base_folder / "GT-final_test.csv") as csv_file:
-                samples = [
-                    (str(self._target_folder / row["Filename"]), int(row["ClassId"]))
-                    for row in csv.DictReader(csv_file, delimiter=";", skipinitialspace=True)
-                ]
+                samples = [(str(self._target_folder / row["Filename"]), int(row["ClassId"])) for row in csv.DictReader(csv_file, delimiter=";", skipinitialspace=True)]
 
         self._samples = samples
         self.transform = transform
@@ -128,7 +125,7 @@ class PyTorchGTSRB(VisionDataset):
 
 
 class GTSRBDataModule(pl.LightningDataModule):
-    
+
     # from https://github.com/openai/CLIP/blob/e184f608c5d5e58165682f7c332c3a8b4c1545f2/data/prompts.md
     classes = [
         "red and white circle 20 kph speed limit",

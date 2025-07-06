@@ -3,6 +3,7 @@
     L. Moschella, V. Maiorca, M. Fumero, A. Norelli, F. Locatello, and E. Rodola, 
     “RELATIVE REPRESENTATIONS ENABLE ZERO-SHOT LATENT SPACE COMMUNICATION,” 
 """
+
 import torch
 import torch.nn.functional as F
 from torch import Tensor, nn

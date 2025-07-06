@@ -17,5 +17,6 @@ Examples:
     # Use the `plot` module to visualize model performance
     >>> pytorch_classification.plot.plot_confusion_matrix(predictions, targets)
 """
+
 from . import data, models, pl_modules, plot, transforms, utils
 from .types import *

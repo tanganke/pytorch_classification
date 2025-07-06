@@ -3,6 +3,7 @@ Standard ImageNet Argumentation
 
 https://github.com/pytorch/examples/blob/main/imagenet/main.py
 """
+
 from torchvision import transforms
 
 to_tensor = transforms.ToTensor()

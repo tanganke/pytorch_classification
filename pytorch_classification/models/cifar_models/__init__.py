@@ -4,6 +4,7 @@ references:
     https://github.com/kuangliu/pytorch-cifar
     https://github.com/kentaroy47/vision-transformers-cifar10
 """
+
 from .mobilenetv2 import (
     cifar10_mobilenetv2_x0_5,
     cifar10_mobilenetv2_x0_75,
